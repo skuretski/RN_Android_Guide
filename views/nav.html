@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../favicon.ico">
+
+    <title>How To Guide</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="../css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../css/styles.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../scripts/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">How To Guide</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="/basic">Getting Started</a></li>
+            <li class="active"><a href="/nav">Navigator</a></li>
+            <li><a href="/navExp">NavigationExperimental</a></li>
+            <li><a href="/back">BackAndroid</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="starter-template">
+        <h1>Navigation for Android</h1>
+        <div>
+          <h3>Mobile Navigation</h3>
+            <p>
+            React Native has components to help mobile navigation between scenes (aka screens). Navigation can be tricky, but if you're familiar with the HTML5 History API in terms of pop, push and replace, the React Native Navigator should also seem familiar. I should note there is a NavigatorIOS component which uses the iOS UINavigationController. Android does not have a specific Navigator like iOS, so we must use Navigator.</p><br>
+            <p>
+            Facebook has also announced that it is <strong>phasing out support for the Navigator component </strong> in favor of NavigationExperimental. As the name suggests, it is still in "experimental" phase, but eventually, Navigation will be the component to use for navigating.
+            </p>  
+          <h3>Navigator</h3>
+            <p>
+            The <a href="https://facebook.github.io/react-native/docs/navigator.html" target="blank">docs </a>for the Navigator lists props, methods, and some example uses. With the different methods, you can customize the look, transitions, and navigation bar.  
+            </p>
+        </div>
+        <div>
+          <h3>Navigator Example</h3>
+            <h4>Initial Setup</h4>
+            <p>First, you want to import the Navigator component from React Native and then use the component.</p>
+            <!-- START CODE BLOCK -->
+            <div class="code_block"> 
+            <pre>
+import React from 'react';
+import {
+  Text,
+  Navigator                                                             //Importing Navigator from RN
+} from 'react-native';
+
+var NavExample = React.createClass({
+  render(){
+    return(
+      &lt;Navigator                                                        //Declaring our Navigator component
+        initialRoute={{id: '1', name: 'NavExample Page 1'}}             //This line declares the first route for the application.
+        renderScene={(route, navigator) =>                              //This line tells the navigator which scene to render.
+          &lt;Text>Hello from {route.name}!&lt;/Text>
+        }
+      />
+    );
+  }
+});
+            </pre>
+            </div> <!-- /.code_block -->
+            <!-- END CODE BLOCK -->
+            <p>
+              The Navigator requires you to have <code>initialRoute</code> and <code>renderScene</code> defined. The other methods and props are optional:
+              <ul>
+                <li>NavigationBar</li>
+                <li>SceneConfigs (like FloatFromRight)</li>
+                <li>Using a navigator object </li>
+                <li>Using a route stack</li>
+              </ul> 
+            </p>
+            <h4>Route Stack</h4>
+            <p>
+              Like the example from React Native, you can add a route stack by declaring it prior to using the Navigator.
+            </p>
+            <!-- START CODE BLOCK -->
+            <div class="code_block">
+            <pre>
+import React from 'react';
+import {
+  Text,
+  View,
+  Navigator,
+  StyleSheet,
+  TouchableHighlight
+} from 'react-native';
+
+var NavExample = React.createClass({
+  render(){
+    const routes = [
+      {id: 1, name: NavExample Page 1},                     //This is your stack of routes
+      {id: 2, name: NavExample Page 2}
+    ];
+    return(
+      &lt;Navigator
+        initialRoute={routes[0]}                            //Declaring your initial route
+        initialRouteStack={routes}                          //Using your route stack
+        renderScene={(route,navigator) => 
+          &lt;TouchableHighlight onPress={() => {             // onPress() -> handle press event
+            if (route.index === 0) {                        //if-else depending on route index
+              navigator.push(routes[1]);
+            } else {
+              navigator.pop();
+            }
+          }}>
+          &lt;Text>Hello from {route.name}!&lt;/Text>
+          &lt;/TouchableHighlight>
+        }
+      />
+    );
+  }
+});
+            </pre>
+            </div> <!-- /.code_block -->
+            <!-- END CODE BLOCK -->
+            <p>You can manipulate your route stack by with different methods:
+            <ul>
+              <li><code>immediatelyResetRouteStack(nextRouteStack)</code></li>
+              <li><code>jumpTo(route)</code></li>
+              <li><code>jumpForward()</code></li>
+              <li><code>jumpBack()</code></li>
+              <li><code>push(route)</code></li>
+              <li><code>popN(n)</code></li>
+              <li><code>pop()</code></li>
+              <li><code>replaceAtIndex(route, index, callback)</code></li>
+              <li><code>replace(route)</code></li>
+              <li><code>replacePrevious(route)</code></li>
+              <li><code>popToTop()</code></li>
+              <li><code>popToRoute(route)</code></li>
+              <li><code>replacePreviousAndPop(route)</code></li>
+              <li><code>resetTo(route)</code></li>
+              <li><code>getCurrentRoutes()</code></li>
+            </ul>
+            </p>
+          <h4>Custom Navigation</h4>
+            <p>
+              Doing your navigation <em>can</em> work this way. However, once you start getting into different scenes requiring or not requiring user authentication, or even different props, it can get a little messy with many if-else statements in the Navigator component. Let me show you a way to implement a login screen with a verified user using the Navigator.
+              </p>
+          <!-- START CODE BLOCK -->
+          <div class="code_block">
+          <pre>
+import React from 'react';
+import {connect} from 'react-redux';      // Optional library for store
+import{
+  View,
+  Text,
+  Navigator,
+  TouchableOpacity
+} from 'react-native';
+
+/*
+    Different scenes in the application. 'Pets' component requires a user to be logged in.
+*/
+import Pets from './Pets';                // Scene component
+import Login from './Login';              // Scene component
+
+var App = React.createClass({
+  getInitialState(){
+    return {}
+  },
+  render() {
+    var navigator = this.props.navigator;                       // Optional navigator object as described above
+    return(
+      &lt;Navigator
+          initialRoute={{id: 'Login', name: 'Login'}}           // Declaring initial route
+          renderScene={this.renderScene}                        // Rendering a scene based upon renderScene function below
+          configureScene={(route)=> {                           // Optional configureScene
+          if(route.sceneConfig) {                               // If there is a sceneConfig, use that one
+            return route.sceneConfig;
+          }
+            return Navigator.SceneConfigs.FloatFromRight;       // If no sceneConfig, default to FloatFromRight
+          }} /> 
+      ); 
+  },
+  renderScene(route, navigator){                                // Our custom-made renderScene handler
+    var route_id = route.id;
+    if(route_id === 'Login' && !this.props.user_id){            // If route desired is 'Login' and there is no prop of user_id (aka no user logged in)
+      return (
+        &lt;Login navigator={navigator} />                        // Return navigator object of Login
+      );
+    }    
+    if(route_id === 'Pets' && this.props.user_id){              // If route desired is 'Pets' and prop of user_id (user is logged in successfully)
+      return(
+        &lt;Pets navigator={navigator} />                         // Return navigator object of Pets
+      );
+    }
+    if(route_id === 'Pets' && !this.props.user_id){             // If route desired is 'Pets' and there is no prop of user_id (no login)
+      return(
+        &lt;Login navigator={navigator}/>                         // Return navigator object of Login instead of Pets
+      );
+    }
+    if(route_id === 'Login' && this.props.user_id){             // If route is 'Login' and there is a user_id
+      return(
+        &lt;Pets navigator={navigator}/>                          // Return navigator object of Pets instead of Login
+      );
+    }
+    return this.noRoute(navigator);                             // If no route (should not happen)
+  },
+  noRoute(navigator){                                           // No route display to be returned
+    return(
+      &lt;View>
+        &lt;TouchableOpacity onPress={() => navigator.pop()}>
+          &lt;Text> No route for this! Press to go back. &lt;/Text>
+        &lt;/TouchableOpacity>
+      &lt;/View>
+    );
+  } 
+});
+
+var mapStateToProps = (state) => {
+  return {
+    user_id: state.auth.user_id
+  }
+}
+          </pre>
+          </div>
+          <!-- END CODE BLOCK -->
+          <p>
+            Here you can see there are different handlers for which scene to be rendered by checking certain props. By using a custom <code>renderScene</code> function, you have great control over which scenes need to be rendered and when. 
+          </p>
+          <p>
+            This is what the corresponding Login component would look like to complement this App.js file.      
+          </p>
+          <!-- START CODE BLOCK -->
+          <div class="code_block">
+          <pre>
+import React from 'react';
+import {reduxForm} from 'redux-form';                     // Optional library for Redux Form management
+import{
+  TouchableOpacity,
+  Text,
+  View,
+  TextInput,
+  Navigator
+} from 'react-native';
+
+import {userLogin, userSignup, addAlert} from '../actions';
+
+var Login = React.createClass({
+  getInitialState: function(){
+    return{
+      loading: false
+    }
+  },
+  onSignin: function(){
+      // Some code to handle sign in
+  },
+  onSignup: function(){
+      // Some more code to handle sign up
+  },
+  render() {
+    if(this.state.loading){
+      return (
+        &lt;View>
+          &lt;Text> Loading page... &lt;/Text>
+        &lt;/View>
+      )
+    }
+    else {
+      return(
+        &lt;Navigator                                         // Declaring the Navigator component (required to use from App class above)
+          renderScene={this.renderScene}                     // Calling renderScene from Navigator with our custom renderScene
+        />  
+      );
+    }
+  },
+  renderScene(route,navigator){                              // Custom renderScene function with specifics of what to render on screen
+    var {fields: {email,password}} = this.props;
+    return (
+      &lt;View style={styles.container}>
+        &lt;View style={styles.titleContainer}>
+          &lt;Text style={styles.title}>
+            Pet Companion
+          &lt;/Text>
+          &lt;/View>
+         &lt;View style={styles.field}>
+          &lt;TextInput
+            {...email} placeholder="Email" style={styles.textInput}/>
+        &lt;/View>
+        &lt;View style={styles.field}>
+          &lt;TextInput
+            {...password} placeholder="Password" secureTextEntry={true} style={styles.textInput}/>
+        &lt;/View>         
+        &lt;View style={styles.buttonContainer}>
+          &lt;TouchableOpacity onPress={this.onSignin}>
+            &lt;Text style={styles.button}>
+              Sign In
+            &lt;/Text>
+          &lt;/TouchableOpacity>
+          &lt;TouchableOpacity onPress={this.onSignup}>
+            &lt;Text style={styles.button}>
+              Sign Up
+            &lt;/Text>
+          &lt;/TouchableOpacity>
+        &lt;/View>
+      &lt;/View>
+    );
+  } 
+});
+
+module.exports = reduxForm({
+  form: 'login',
+  fields: ['email', 'password'],
+  validate: validate
+}, null, null)(Login);
+
+          </pre>
+          </div>
+          <!-- END CODE BLOCK -->
+          <p>
+            As you can see with the 'Login' component, we must declare a Navigator component in our <code>render() return{...}</code> in order to link the Login Navigator up to the initial App Navigator component. Then, in the custom <code>renderScene</code> function in Login, we can finally write what is to be rendered for the Login scene.
+          </p>    
+          <p>
+            Now that I've covered how to customize your navigation with the Navigator component, let's move on to something that is coming down the pipe: NavigationExperimental. Currently, the Navigator component is not fully supported due to work on NavigationExperimental, and it is suggested to transition to NavigationExperimental use.
+          </p>      
+        </div> <!-- general div -->
+
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../scripts/jquery.min.js"><\/script>')</script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../scripts/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>

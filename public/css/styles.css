@@ -1,0 +1,28 @@
+body {
+  padding-top: 50px;
+  font-size: 16px;
+}
+.starter-template {
+  padding: 40px 15px;
+}
+.code-container{
+}
+.listGroupItem{
+	border: none;
+	padding: 5px;
+}
+img{
+	display: block;
+	margin:auto;
+}
+h1{
+	text-align: center;
+	padding: 5px;
+}
+h3{
+	text-decoration: underline;
+}
+
+h4{
+	font-weight: bold;
+}
